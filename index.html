@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Kyd Tantano Masong">
-    <meta name="description" content="ICDM Examination Timer - A user-friendly web application to set, start, and manage examination durations with a sleek interface and real-time updates.">
-    <meta name="keywords" content="ICDM, examination timer, exam timer, countdown timer, exam management, real-time timer, online exam tool, Kyd Tantano Masong">
+    <meta name="description"
+        content="ICDM Examination Timer - A user-friendly web application to set, start, and manage examination durations with a sleek interface and real-time updates.">
+    <meta name="keywords"
+        content="ICDM, examination timer, exam timer, countdown timer, exam management, real-time timer, online exam tool, Kyd Tantano Masong">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Graduate&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Graduate&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <title>ICDM Examination Timer</title>
     <style>
@@ -26,12 +30,57 @@
             position: relative;
         }
 
+        #fullscreen-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            z-index: 1000;
+        }
+
         hr {
-            -webkit-box-shadow: rgba(255, 255, 255, 0.07) 0 1px 0;
+            b-webkit-box-shadow: rgba(255, 255, 255, 0.07) 0 1px 0;
             -moz-box-shadow: rgba(255, 255, 255, 0.07) 0 1px 0;
             box-shadow: rgba(255, 255, 255, 0.07) 0 1px 0;
             border-bottom: 1px solid #121212;
             border-top: none;
+            margin-top: -1px;
+        }
+
+        .hamburger-menu {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+        }
+
+        .side-menu {
+            position: absolute;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+        }
+
+        .side-menu a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .side-menu a:hover {
+            background-color: #575757;
         }
 
 
@@ -41,13 +90,12 @@
 
         h2 {
             font-size: 20pt;
-            color: #ffff00;
+            color: #ffffff;
             text-align: center;
             font-weight: 200;
-            margin-top: 0;
+            margin-top: 10px;
             margin-bottom: 20px;
             text-shadow: 0px 0px 3px black;
-
         }
 
         h3 {
@@ -62,6 +110,7 @@
         }
 
         .container {
+            max-width: 650px;
             text-align: left;
             color: #c6c6c6;
             background-color: #444;
@@ -255,18 +304,27 @@
 </head>
 
 <body>
+    <i id="fullscreen-icon" class="fas fa-expand"></i>
+    <div class="hamburger-menu">
+        <i class="fas fa-bars" onclick="toggleMenu()"></i>
+    </div>
+    <div class="side-menu" id="sideMenu">
+        <a href="index.html">Exam Timer</a>
+        <a href="tasktimer.html">Task Timer</a>
+        <a href="#">Link 3</a>
+    </div>
     <div class="container">
         <div id="setup">
-            <h2>Examination Timer</h2>
+            <h2>EXAM TIMER</h2>
             <div>
                 <span style="font-size: 12pt;">Title:</span>
-                <input type="text" id="title" size="65">
+                <input type="text" placeholder="Examination name and descriptions" id="title" size="65">
             </div>
             <div>
                 <span style="font-size: 12pt;">Duration in hours:</span>
-                <input type="number" id="hours" min="0" max="23">
+                <input type="number" placeholder="HH" id="hours" min="0" max="23">
                 <span style="font-size: 12pt;">and in minutes:</span>
-                <input type="number" id="minutes" min="0" max="59">
+                <input type="number" placeholder="MM" id="minutes" min="0" max="59">
                 <label><input type="checkbox" id="showSeconds" checked> Show seconds</label>
             </div>
         </div>
@@ -353,7 +411,7 @@
             return (hrs * 3600) + (mins * 60) + secs;
         }
 
-        document.getElementById('start').addEventListener('click', function() {
+        document.getElementById('start').addEventListener('click', function () {
             const title = document.getElementById('title').value;
             const hours = parseInt(document.getElementById('hours').value) || 0;
             const minutes = parseInt(document.getElementById('minutes').value) || 0;
@@ -381,7 +439,7 @@
             startTimer(duration, showSeconds);
         });
 
-        document.getElementById('pause').addEventListener('click', function() {
+        document.getElementById('pause').addEventListener('click', function () {
             if (timerInterval) {
                 clearInterval(timerInterval);
                 timerInterval = null;
@@ -401,7 +459,7 @@
             }
         });
 
-        document.getElementById('reset').addEventListener('click', function() {
+        document.getElementById('reset').addEventListener('click', function () {
             clearInterval(timerInterval);
             timerInterval = null;
             document.getElementById('setup').classList.remove('hidden');
@@ -419,7 +477,7 @@
             const endTime = Date.now() + duration * 1000;
             finishTime = new Date(endTime);
 
-            timerInterval = setInterval(function() {
+            timerInterval = setInterval(function () {
                 const remainingTime = Math.max(0, (endTime - Date.now()) / 1000);
                 document.getElementById('remainingTime').textContent = formatTime(remainingTime, showSeconds);
                 document.getElementById('finishTime').textContent = formatHHMM(finishTime);
@@ -450,10 +508,31 @@
         });
 
         updateCurrentTime();
+        document
+            .getElementById("fullscreen-icon")
+            .addEventListener("click", function () {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                    this.classList.remove("fa-expand");
+                    this.classList.add("fa-compress");
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                        this.classList.remove("fa-compress");
+                        this.classList.add("fa-expand");
+                    }
+                }
+            });
+
+        function toggleMenu() {
+            const sideMenu = document.getElementById('sideMenu');
+            if (sideMenu.style.left === '-250px') {
+                sideMenu.style.left = '0';
+            } else {
+                sideMenu.style.left = '-250px';
+            }
+        }
     </script>
-
-
-
 
 </body>
 
