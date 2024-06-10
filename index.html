@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Kyd Tantano Masong">
+    <meta name="description" content="ICDM Examination Timer - A user-friendly web application to set, start, and manage examination durations with a sleek interface and real-time updates.">
+    <meta name="keywords" content="ICDM, examination timer, exam timer, countdown timer, exam management, real-time timer, online exam tool, Kyd Tantano Masong">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Graduate&family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <title>ICDM Examination Timer</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: darkgrey;
+            position: relative;
+        }
+
+        hr {
+            border: none;
+            height: 0.5px;
+            background-color: #666666;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+
+        h1 {
+            font-size: 50pt;
+        }
+
+        h2 {
+            font-size: 20pt;
+            color: #ffff00;
+            text-align: center;
+            font-weight: 200;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-shadow: 0px 0px 3px black;
+
+        }
+
+        h3 {
+            font-size: 23pt;
+            font-weight: 300;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        h4 {
+            font-size: 16pt;
+        }
+
+        .container {
+            text-align: left;
+            color: #c6c6c6;
+            background-color: #444;
+            padding: 40px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+            border-radius: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12pt;
+            text-align: center;
+            margin: 5px;
+            border-radius: 4px;
+            color: #f0f0f0;
+            border-style: inset;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+            border-color: #2f2f2f;
+            background-color: #1a1a1a;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 20px;
+            border-top-left-radius: 5px;
+            padding: 2px 3px;
+            text-shadow: 0px 0px 3px black;
+        }
+
+        .buttons button {
+            font-family: 'Poppins', sans-serif;
+            font-size: 8pt;
+            font-weight: 500;
+            margin: 1px;
+            padding: 2px 20px;
+            border-radius: 3px;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .buttons button i {
+            font-size: 5pt;
+            text-shadow: 0px 0px 3px #004d39;
+            color: #ffffff;
+            margin-right: 4px;
+            vertical-align: middle;
+            border-radius: 3px;
+            padding: 2px;
+            background-color: transparent;
+        }
+
+        button:hover {
+            background: #014579;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        #start {
+            background-color: #62c462;
+        }
+
+        #start.clicked {
+            background-color: #62c462;
+            cursor: default;
+        }
+
+        #pause {
+            background-color: #0066b2;
+        }
+
+        #reset {
+            background-color: #999999;
+        }
+
+        .highlight {
+            color: #999999;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 50px;
+            margin-left: 170px;
+            margin-right: 170px;
+            margin-bottom: 0px;
+            text-shadow: 0px 0px 3px black;
+            box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.7);
+            background-color: #444;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .display-particulars {
+            text-align: center;
+            width: 100%;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 0px solid #606060;
+            border-style: inset;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+            border-color: #2f2f2f;
+        }
+
+        .display-particulars th,
+        .display-particulars td {
+            padding: 2px;
+            text-align: center;
+            background-color: #444;
+            text-transform: uppercase;
+        }
+
+        .display-particulars th {
+            border-radius: 0;
+            background-color: #444;
+            color: #f0f0f0;
+            text-shadow: 0px 0px 1px #8c8c8c;
+        }
+
+        .display-particulars td h1 {
+            font-family: 'Poppins', sans-serif;
+            background-color: transparent;
+            color: #ffffff;
+        }
+
+        .display-timer {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid #444;
+            border-style: inset;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+            background-color: #444;
+        }
+
+        .display-timer th,
+        .display-timer td {
+            height: 20px;
+            border: 0px solid #333333;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .display-timer th {
+            background-color: transparent;
+            color: #f0f0f0;
+        }
+
+        .display-timer td {
+            font-family: "Orbitron", sans-serif;
+            font-weight: 100;
+            border-radius: 0;
+            background-color: #2f2f2f;
+            color: #ffffff;
+            text-shadow: 0px 0px 3px black;
+            box-shadow: inset 0px 0px 20px rgba(0, 0, 0, 0.7);
+            font-size: 5.5rem;
+            line-height: 5px;
+            padding: 0;
+        }
+
+        footer {
+
+            font-family: 'Poppins', sans-serif;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 10pt;
+            font-weight: 500;
+            text-transform: uppercase;
+            background-color: #1a1a1a;
+            color: #333333;
+            text-align: center;
+            padding: 0px 0;
+        }
+
+        footer img {
+            width: 130px;
+            vertical-align: middle;
+            margin-right: 20px;
+            background-color: #595959;
+            padding: 6px 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div id="setup">
+            <h2>Examination Timer</h2>
+            <div>
+                <span style="font-size: 12pt;">Title:</span>
+                <input type="text" id="title" size="65">
+            </div>
+            <div>
+                <span style="font-size: 12pt;">Duration in hours:</span>
+                <input type="number" id="hours" min="0" max="23">
+                <span style="font-size: 12pt;">and in minutes:</span>
+                <input type="number" id="minutes" min="0" max="59">
+                <label><input type="checkbox" id="showSeconds" checked> Show seconds</label>
+            </div>
+        </div>
+        <div class="buttons">
+            <button id="start"><i class="fas fa-play"></i> START</button>
+            <button id="pause" disabled><i class="fas fa-pause"></i> PAUSE</button>
+            <button id="reset" disabled><i class="fas fa-redo-alt"></i> SETUP</button>
+        </div>
+        <div id="timer" class="hidden">
+            <h2 id="timerTitle"></h2>
+            <p class="highlight">Today is <span id="currentDate"></span></p>
+            <hr>
+            <table class="display-particulars">
+                <tr class="display-particulars th">
+                    <th style="color: #ffffff;">Current Time</th>
+                    <th style="color: #1aff1a;">Start </th>
+                    <th style="color: #ff3300;">Finish </th>
+                </tr>
+                <tr>
+                    <td style="width: 250px;">
+                        <h3 id="currentTime"></h3>
+                    </td>
+                    <td style="width: 250px;">
+                        <h3 id="startTime"></h3>
+                    </td>
+                    <td style="width: 250px;">
+                        <h3 id="finishTime"></h3>
+                    </td>
+                </tr>
+            </table>
+
+            <table class="display-timer ">
+                <tr>
+                    <th id="display-timer th">EXAMINATION TIME</th>
+                </tr>
+                <tr>
+                    <td class="display-timer td">
+                        <h1 id="remainingTime"></h1>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <a href="#" target="_self">
+            <img src="https://ictdir.net/wp-content/uploads/2023/10/brandlogo.png">
+        </a>
+        &copy; <span id="year"></span> | ICT Click Digital Media by Kyd Tantano Masong
+    </footer>
+
+    <script>
+        let timerInterval, finishTime;
+
+        function formatTwoDigits(value) {
+            return value < 10 ? `0${value}` : value;
+        }
+
+        function formatHHMM(date) {
+            let hours = date.getHours();
+            const minutes = formatTwoDigits(date.getMinutes());
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            return `${formatTwoDigits(hours)}:${minutes} ${ampm}`;
+        }
+
+        function formatTime(seconds, showSeconds) {
+            const hrs = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+
+            const formattedHrs = hrs < 10 ? `0${hrs}` : hrs;
+            const formattedMins = mins < 10 ? `0${mins}` : mins;
+            const formattedSecs = secs < 10 ? `0${secs}` : secs;
+
+            return `${formattedHrs}:${formattedMins}` + (showSeconds ? `:${formattedSecs}` : '');
+        }
+
+        function getRemainingTime() {
+            const remainingText = document.getElementById('remainingTime').textContent.split(':');
+            const hrs = parseInt(remainingText[0]) || 0;
+            const mins = parseInt(remainingText[1]) || 0;
+            const secs = parseInt(remainingText[2]) || 0;
+            return (hrs * 3600) + (mins * 60) + secs;
+        }
+
+        document.getElementById('start').addEventListener('click', function() {
+            const title = document.getElementById('title').value;
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const showSeconds = document.getElementById('showSeconds').checked;
+            const duration = (hours * 60 * 60) + (minutes * 60);
+
+            if (duration <= 0) {
+                alert('You have not indicated a time duration. Please set a valid duration in hours or minutes.');
+                return;
+            }
+
+            const currentTime = new Date();
+            document.getElementById('startTime').textContent = formatHHMM(currentTime);
+
+            document.getElementById('setup').classList.add('hidden');
+            document.getElementById('timer').classList.remove('hidden');
+            document.getElementById('start').classList.add('clicked');
+            document.getElementById('start').disabled = true;
+            document.getElementById('start').style.opacity = '0.1';
+            document.getElementById('pause').disabled = false;
+            document.getElementById('reset').disabled = false;
+
+            document.getElementById('timerTitle').textContent = title;
+            updateCurrentTime();
+            startTimer(duration, showSeconds);
+        });
+
+        document.getElementById('pause').addEventListener('click', function() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                this.innerHTML = '<i class="fas fa-pause"></i> CONTINUE'; // change to CONTINUE
+                document.getElementById('start').innerHTML = '<i class="fas fa-play"></i> START';
+                document.getElementById('start').classList.remove('clicked');
+                document.getElementById('start').disabled = true;
+                document.getElementById('start').style.opacity = '0.1'; // reducing opacity to 10%
+            } else {
+                const remainingTime = getRemainingTime();
+                startTimer(remainingTime, document.getElementById('showSeconds').checked);
+                this.innerHTML = '<i class="fas fa-pause"></i> PAUSE';
+                document.getElementById('start').innerHTML = '<i class="fas fa-play"></i> START'; // change to PAUSE
+                document.getElementById('start').classList.add('clicked');
+                document.getElementById('start').disabled = true;
+                document.getElementById('start').style.opacity = '0.1'; // reducing opacity to 10%
+            }
+        });
+
+        document.getElementById('reset').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            document.getElementById('setup').classList.remove('hidden');
+            document.getElementById('timer').classList.add('hidden');
+            document.getElementById('start').classList.remove('clicked');
+            document.getElementById('start').disabled = false;
+            document.getElementById('start').style.opacity = '1'; // restoring opacity
+            document.getElementById('pause').disabled = true;
+            document.getElementById('reset').disabled = true;
+            document.getElementById('pause').innerHTML = '<i class="fas fa-pause"></i> PAUSE';
+            document.getElementById('start').innerHTML = '<i class="fas fa-play"></i> START';
+        });
+
+        function startTimer(duration, showSeconds) {
+            const endTime = Date.now() + duration * 1000;
+            finishTime = new Date(endTime);
+
+            timerInterval = setInterval(function() {
+                const remainingTime = Math.max(0, (endTime - Date.now()) / 1000);
+                document.getElementById('remainingTime').textContent = formatTime(remainingTime, showSeconds);
+                document.getElementById('finishTime').textContent = formatHHMM(finishTime);
+
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+            }, 1000);
+        }
+
+        function updateCurrentTime() {
+            setInterval(() => {
+                const now = new Date();
+                const options = {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                };
+                document.getElementById('currentDate').textContent = now.toLocaleDateString('en-GB', options);
+                document.getElementById('currentTime').textContent = formatHHMM(now);
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const year = new Date().getFullYear();
+            document.getElementById('year').textContent = year;
+        });
+
+        updateCurrentTime();
+    </script>
+
+
+
+
+</body>
+
+</html>
